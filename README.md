@@ -3,6 +3,7 @@
 > 🚀 榨乾 RP2040 效能的終極開源掌機與軟體生態系。支援 Doom、NES 模擬、Apple II 電腦，並完美相容 MakeCode Arcade 遊戲開發。
 
 ![Hero Image - 實體掌機照片預留區](https://via.placeholder.com/800x400?text=Insert+Hero+Image+Here)
+<img width="595" height="794" alt="image" src="https://github.com/user-attachments/assets/a8c45978-43c5-4510-b026-743aaa89b75c" />
 
 *(預留區：這裡未來放一張最帥的實體掌機照片，最好是正在跑 Doom 或高亮顯示螢幕畫面的照片)*
 
@@ -32,14 +33,17 @@
 ### 3. 經典電腦復刻 (Rust + C++)
 🖥️ **[PicoApple2](https://github.com/pondahai/PicoApple2)**
 一個高效能的 Apple II 模擬器。這是一個結合了 Rust 記憶體安全性與 C++ 硬體控制優勢的跨語言指標性專案。
+<img width="595" height="794" alt="image" src="https://github.com/user-attachments/assets/ea9605cf-3d5e-4310-8ca1-cffb8a36d97c" />
 
 ### 4. 原生遊戲與 STEM 教育
 🧩 **[makecode_arcade_console](https://github.com/pondahai/makecode_arcade_console)**
 支援微軟 MakeCode Arcade 平台。讓這台掌機不僅能玩老遊戲，還能成為程式教育的絕佳載體。
+<img width="1059" height="794" alt="image" src="https://github.com/user-attachments/assets/ae91dffb-be38-4c77-919c-9c19417db682" />
 
 ### 5. 生產力與輸入設備
 ⌨️ **[pico_keyboard](https://github.com/pondahai/pico_keyboard)**
 不玩遊戲時，它就是一把基於 RP2040 的自訂機械鍵盤/巨集鍵盤，支援完整按鍵矩陣掃描。
+<img width="595" height="794" alt="image" src="https://github.com/user-attachments/assets/5aaf62c8-2399-4e1f-8beb-bdb8fbc080a8" />
 
 ---
 
