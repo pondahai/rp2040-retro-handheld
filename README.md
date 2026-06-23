@@ -112,6 +112,28 @@
 
 ---
 
+## 💖 開源致謝與致敬 (Credits & Acknowledgements)
+
+本專案及相關子專案的實現，高度仰賴並參照了開源社群中多位先驅者的傑出貢獻，特別在此致謝與表彰：
+
+### 🔫 Doom 移植相關致謝
+* **Graham Sanderson ([@kilograham](https://github.com/kilograham))**：
+  主導並開發了令人讚嘆的 **[rp2040-doom](https://github.com/kilograham/rp2040-doom)**，將 Chocolate Doom 完美且不失真地移植到 RP2040 上，並研發了獨特的 WHD 壓縮算法。本專案的 `rp2040-doom-ili9341` 即是基於此核心程式碼進行 SPI 顯示器的適配與優化。
+* **rsheldiii ([@rsheldiii](https://github.com/rsheldiii))**：
+  其 **[rp2040-doom-LCD](https://github.com/rsheldiii/rp2040-doom-LCD)** 專案為在微控制器上驅動小螢幕提供了寶貴的 LCD/SPI 渲染修改思路。
+
+### 👾 NES 紅白機模擬相關致謝
+* **Jay Kumogata ([@jay-kumogata](https://github.com/jay-kumogata))**：
+  經典紅白機模擬核心 **InfoNES** 的原始作者。
+* **Shuichi Takano ([@shuichitakano](https://github.com/shuichitakano))**：
+  主導開發了 **[pico-infones](https://github.com/shuichitakano/pico-infones)**，將 InfoNES 移植至 RP2040。
+* **Frank Hoedemakers ([@fhoedemakers](https://github.com/fhoedemakers))**：
+  開發了 **[pico-infonesPlus](https://github.com/fhoedemakers/pico-infonesPlus)**，引入了 SD 卡 ROM 選擇選單與多種手把支援，本專案的 `rp2040-ili9341-infones` 深度參考了其架構設計。
+
+感謝這些優秀的開源創作者，沒有他們的基礎與奉獻，本掌機生態系便無法實現。
+
+---
+
 ## 🤝 參與貢獻與聯絡
 
 歡迎在各個子專案中發起 Issue 或 Pull Request！如果您喜歡這個專案，請不吝給予一個 ⭐️ Star。
