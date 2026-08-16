@@ -104,6 +104,12 @@
 
 > 💡 部分韌體（如 PicoApple2）需要自行合法取得對應的 ROM / 遊戲檔並放入 SD 卡，詳見各子專案說明。
 
+### 📦 進階：用選單一次帶著多套韌體
+
+不想每次換功能都要拔電按 BOOTSEL？搭配 **[rp2040-retro-loader](https://github.com/pondahai/rp2040-retro-loader)** 載入器，開機會出現圖形選單，從 SD 卡上的多個 `.uf2` 直接選一個燒錄並執行。
+
+整包已編譯好的成品（載入器、跳板、Doom / InfoNES / PicoApple2 三個 standalone 韌體，以及選單封面）收在 **[rp2040-handheld-bundle](https://github.com/pondahai/rp2040-handheld-bundle)**，韌體掛在其 [Releases](https://github.com/pondahai/rp2040-handheld-bundle/releases) 並附 sha256 校驗碼，下載即可用。
+
 ---
 
 ## 🗺️ 專案定位 (About This Repo)
