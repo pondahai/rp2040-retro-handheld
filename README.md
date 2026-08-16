@@ -34,6 +34,7 @@
 | 4 | 🧩 **[makecode_arcade_console](https://github.com/pondahai/makecode_arcade_console)** | 原生遊戲與 STEM 教育 | MakeCode Arcade | 子專案 |
 | 5 | ⌨️ **[pico_keyboard](https://github.com/pondahai/pico_keyboard)** | USB 巨集機械鍵盤 | C++，矩陣掃描 | 子專案 |
 | 6 | 📡 **[pico_keyboard_ime_terminal](https://github.com/pondahai/pico_keyboard_ime_terminal)** | 中文注音輸入 / Meshtastic 離網終端機 | C++，嵌入式 IME + nanopb | 子專案 |
+| 7 | 💾 **[rp2040-retro-loader](https://github.com/pondahai/rp2040-retro-loader)** | 開機圖形選單，從 SD 卡選韌體燒錄 | C，16KB 載入器 + 跳板 | 基礎設施 |
 
 ### 1. FPS 經典移植
 🔫 **[rp2040-doom-ili9341](https://github.com/pondahai/rp2040-doom-ili9341)**
@@ -61,6 +62,10 @@
 ### 6. 離網通訊終端機 (進階)
 📡 **[pico_keyboard_ime_terminal](https://github.com/pondahai/pico_keyboard_ime_terminal)**
 鍵盤韌體的進階演化版。在資源有限的 MCU 上實現了**嵌入式中文注音輸入法引擎**（兩階段二分搜尋查詢、PROGMEM 字型渲染）、模組化分頁 UI 框架，並透過 UART 與 **Meshtastic** 節點通訊（nanopb 解析 Protobuf），讓掌機化身為可離網收發訊息的 LoRa 終端機。
+
+### 7. 韌體載入器 (基礎設施)
+💾 **[rp2040-retro-loader](https://github.com/pondahai/rp2040-retro-loader)**
+不是另一套「功能」，而是讓上面這些韌體**共存**的機制。它自己只佔 flash 前 16KB，開機顯示圖形選單（含封面縮圖），讓你從 SD 卡上的多個 `.uf2` 選一個寫進 `0x10004000` 並執行——換韌體不必再拔電按 BOOTSEL。已編譯好的整包成品見 **[rp2040-handheld-bundle](https://github.com/pondahai/rp2040-handheld-bundle)**，用法見下方快速開始。
 
 ---
 
