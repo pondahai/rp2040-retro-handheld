@@ -67,7 +67,7 @@
 
 ### 8. 電子字典與語音合成
 📖 **[rp2040-retro-dict](https://github.com/pondahai/rp2040-retro-dict)**
-掌機上的英漢／漢英電子字典，資料放 SD 卡、韌體常駐 flash。特色是**不用錄音的發音**——沿用 1980 年代電子字典的共振峰合成路線，中英共用同一個合成器（差別只在共振峰軌跡的排法），合成器約 7 KB、靜態 RAM 0，取代了原本估計的 2MB 音節庫。英文有音標就唸轉檔期算好的音素，沒音標（約七成詞條）則由 143 條字母規則現場推導；中文查不到的詞會逐字查再接起來。輸入端內建注音（大千配列），`Fn+2` 切換英漢／漢英。連結在 `0x10004000`，是載入器選單裡的一支 `.uf2`。
+掌機上的英漢／漢英電子字典，資料放 SD 卡、韌體常駐 flash。特色是**不用錄音的發音**——沿用 1980 年代電子字典的共振峰合成路線，中英共用同一個合成器（差別只在共振峰軌跡的排法），合成器約 7 KB、靜態 RAM 0，取代了原本估計的 2MB 音節庫。英文有音標就唸轉檔期算好的音素，沒音標（約七成詞條）則由 143 條字母規則現場推導；中文查不到的詞會逐字查再接起來。輸入端內建注音（大千配列），`Fn+2` 切換英漢／漢英。連結在 `0x10004000`，是載入器選單裡的一支 `.uf2`。本專案沒有自己的 Releases，編譯好的 `.uf2`（選單版與可直接 USB 燒的 standalone 版）收在 **[rp2040-handheld-bundle](https://github.com/pondahai/rp2040-handheld-bundle/releases)**。另需在 SD 卡放 `/DICT/` 字典資料。
 
 ---
 
@@ -110,7 +110,7 @@ PCB Gerber、3D 列印外殼 (STL) 與電路圖正在整理中，硬體定稿後
 
 不想每次換功能都要拔電按 BOOTSEL？搭配 **[rp2040-retro-loader](https://github.com/pondahai/rp2040-retro-loader)** 載入器，開機會出現圖形選單，從 SD 卡上的多個 `.uf2` 直接選一個燒錄並執行。
 
-整包已編譯好的成品（載入器、跳板、Doom / InfoNES / PicoApple2 三個 standalone 韌體，以及選單封面）收在 **[rp2040-handheld-bundle](https://github.com/pondahai/rp2040-handheld-bundle)**，韌體掛在其 [Releases](https://github.com/pondahai/rp2040-handheld-bundle/releases) 並附 sha256 校驗碼，下載即可用。
+整包已編譯好的成品（載入器、跳板，Doom / InfoNES / PicoApple2 / 電子字典四個專題的韌體，以及選單封面）收在 **[rp2040-handheld-bundle](https://github.com/pondahai/rp2040-handheld-bundle)**，韌體掛在其 [Releases](https://github.com/pondahai/rp2040-handheld-bundle/releases) 並附 sha256 校驗碼，下載即可用。
 
 ---
 
