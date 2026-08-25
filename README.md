@@ -32,6 +32,7 @@
 | 5 | ⌨️ **[pico_keyboard](https://github.com/pondahai/pico_keyboard)** | USB 巨集機械鍵盤 | C++，矩陣掃描 | 子專案 |
 | 6 | 📡 **[pico_keyboard_ime_terminal](https://github.com/pondahai/pico_keyboard_ime_terminal)** | 中文注音輸入 / Meshtastic 離網終端機 | C++，嵌入式 IME + nanopb | 子專案 |
 | 7 | 💾 **[rp2040-retro-loader](https://github.com/pondahai/rp2040-retro-loader)** | 開機圖形選單，從 SD 卡選韌體燒錄 | C，16KB 載入器 + 跳板 | 基礎設施 |
+| 8 | 📖 **[rp2040-retro-dict](https://github.com/pondahai/rp2040-retro-dict)** | 英漢／漢英電子字典，含 1980 年代風格合成發音 | C，共振峰合成器 + 注音 IME | 子專案 |
 
 ### 1. FPS 經典移植
 🔫 **[rp2040-doom-ili9341](https://github.com/pondahai/rp2040-doom-ili9341)**
@@ -63,6 +64,10 @@
 ### 7. 韌體載入器 (基礎設施)
 💾 **[rp2040-retro-loader](https://github.com/pondahai/rp2040-retro-loader)**
 不是另一套「功能」，而是讓上面這些韌體**共存**的機制。它自己只佔 flash 前 16KB，開機顯示圖形選單（含封面縮圖），讓你從 SD 卡上的多個 `.uf2` 選一個寫進 `0x10004000` 並執行——換韌體不必再拔電按 BOOTSEL。已編譯好的整包成品見 **[rp2040-handheld-bundle](https://github.com/pondahai/rp2040-handheld-bundle)**，用法見下方快速開始。
+
+### 8. 電子字典與語音合成
+📖 **[rp2040-retro-dict](https://github.com/pondahai/rp2040-retro-dict)**
+掌機上的英漢／漢英電子字典，資料放 SD 卡、韌體常駐 flash。特色是**不用錄音的發音**——沿用 1980 年代電子字典的共振峰合成路線，中英共用同一個合成器（差別只在共振峰軌跡的排法），合成器約 7 KB、靜態 RAM 0，取代了原本估計的 2MB 音節庫。英文有音標就唸轉檔期算好的音素，沒音標（約七成詞條）則由 143 條字母規則現場推導；中文查不到的詞會逐字查再接起來。輸入端內建注音（大千配列），`Fn+2` 切換英漢／漢英。連結在 `0x10004000`，是載入器選單裡的一支 `.uf2`。
 
 ---
 
