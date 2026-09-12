@@ -34,6 +34,10 @@ MCU：Raspberry Pi Pico (RP2040)，雙核 Cortex-M0+，可超頻至 ~250MHz
 | | LATCH | 14 | |
 | | CLOCK | 26 | 595 與 165 共用 |
 | | DATA_IN | 27 | ← 74HC165（讀回行狀態） |
+| **遊戲按鍵** | UP / DOWN | 9 / 5 | **直接接 GPIO**，active-low、內部上拉 |
+| | LEFT / RIGHT | 8 / 6 | |
+| | A / B | 2 / 3 | |
+| | SELECT / START | 28 / 4 | |
 | **音效** | Sound Out | 7 | 1-bit PWM → RC 低通 → PAM8403 → 4Ω/8Ω 喇叭 |
 | **LoRa** *(選配)* | UART | — | Meshtastic 節點，接腳依實際模組而定 |
 
@@ -44,9 +48,27 @@ MCU：Raspberry Pi Pico (RP2040)，雙核 Cortex-M0+，可超頻至 ~250MHz
 
 ---
 
-## 2. 鍵盤：64 鍵實體 QWERTY，不是 D-pad
+## 2. 輸入：兩套並存
 
-這點常被誤解。這台機器的輸入是**完整的 64 鍵鍵盤**：
+這台機器上有**兩套各自獨立的輸入裝置**，接在不同的腳位上，韌體依用途擇一
+（或兩者都用）。寫新韌體前先決定要哪一套。
+
+| | 8 鍵遊戲按鍵 | 8×8 鍵盤矩陣 |
+| :--- | :--- | :--- |
+| 接法 | 直接接 GPIO，active-low + 內部上拉 | 74HC595 掃描列 / 74HC165 讀回 |
+| 腳位 | 2, 3, 4, 5, 6, 8, 9, 28 | 14, 15, 26, 27 |
+| 讀法 | `gpio_get()` | 移位暫存器逐列掃描 |
+| 誰在用 | `rp2040-retro-loader`、`rp2040-ili9341-infones`（推測 doom 亦同） | `PicoApple2`、`PicoApple2-KeyboardTester`、`rp2040-retro-dict` |
+| 適合 | 遊戲、選單 | 文字輸入、終端機、中文注音 |
+
+兩者腳位不衝突，可以同時存在於同一塊板子上。
+
+> 📌 遊戲按鍵的定義在 `rp2040-retro-loader/loader/board.h:33-42` 與
+> `rp2040-ili9341-infones/software/infones/main.cpp:99-107`，兩份數字一致。
+
+### 2.1 8×8 鍵盤矩陣 = 64 鍵實體 QWERTY
+
+矩陣那一套不是放大的方向鍵，而是**完整的 64 鍵鍵盤**：
 
 - 實體佈局 5 列 × 13 格，SPACE 佔兩格 —— 恰好 64 鍵 = **8×8 矩陣**
 - 74HC595 逐列拉低掃描，74HC165 讀回該列的 8 個 bit
@@ -55,7 +77,7 @@ MCU：Raspberry Pi Pico (RP2040)，雙核 Cortex-M0+，可超頻至 ~250MHz
 
 因此這台機器做文字輸入、注音中文、終端機是合理的，不必遷就遊戲手把的按鍵數。
 
-### ⚠️ 真值表要用實測版
+#### ⚠️ 真值表要用實測版
 
 **權威來源：`PicoApple2-KeyboardTester/README.md` 的「完整真值表」一節。**
 那份是用檢查器在真機上跑到 `map is complete and one-to-one` 得出來的。
@@ -66,7 +88,7 @@ MCU：Raspberry Pi Pico (RP2040)，雙核 Cortex-M0+，可超頻至 ~250MHz
 Shift 排列是照**現代 PC 鍵盤**排的，不是 Apple II+ 的排法。鍵帽印什麼就出什麼。
 這是刻意的設計，不是錯位。
 
-### 現成可重用的掃描邏輯
+#### 現成可重用的掃描邏輯
 
 `rp2040-retro-dict/firmware/keys.c` 已經把「掃描結果 → 按鍵事件」寫成
 **純 C、不碰 GPIO** 的一層：輸入是 8 個 byte 的 bit mask，輸出是事件結構。
@@ -116,5 +138,8 @@ Shift 排列是照**現代 PC 鍵盤**排的，不是 Apple II+ 的排法。鍵�
 
 **音效的 GPIO 7 全生態系只有 `PicoApple2/README.md` 記載過一次**，尚未經第二
 來源交叉驗證。做音效的新韌體請先在真機上確認。
+
+8 鍵遊戲按鍵的腳位**不在任何一份 README 裡**，只存在於原始碼
+（`loader/board.h`、`infones/main.cpp`）—— 這正是需要這份文件的理由。
 
 PCB Gerber、3D 列印外殼 (STL) 與電路圖尚未發布。
