@@ -95,6 +95,12 @@
 
 各子專案的 README 只列自己用到的子集；新增或修訂接腳請先改 `docs/HARDWARE.md`。
 
+### 🎨 封面圖示風格 → **[docs/ICON-STYLE.md](docs/ICON-STYLE.md)**
+
+載入器的選單是圖形化的 cover-flow，每個 `.uf2` 配一張 96×96 封面。
+那份文件分析了既有封面的共同語言，定出新韌體該遵守的五條規則，
+免得新加進來的封面在整排裡變成異物。
+
 ### 硬體檔案下載
 
 PCB Gerber、3D 列印外殼 (STL) 與電路圖正在整理中，硬體定稿後會在此發布。在那之前，可依上方 BOM 與 [docs/HARDWARE.md](docs/HARDWARE.md) 的接腳表以麵包板或洞洞板搭建。
