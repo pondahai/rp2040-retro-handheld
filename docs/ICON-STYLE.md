@@ -11,7 +11,7 @@
 
 ## 1. 現況
 
-四個既有封面的共同語言（2026-09-12 分析）：
+五個既有封面的共同語言（2026-09-12 分析）：
 
 | 韌體 | 主體 | 不重複顏色 |
 | :--- | :--- | ---: |
@@ -44,7 +44,7 @@
 
 ### 2.4 pixel art：硬邊、看得見顆粒，但**要有明暗**
 
-不是扁平向量。每個既有封面都有亮面、暗面與描邊，色數落在數百到一千多。
+不是扁平向量。既有封面（`retro-editor` 除外，見 §5）都有亮面、暗面與描邊，色數落在數百到一千多。
 純平塗（十幾色）在這排裡會顯得單薄。
 
 具體做法：主色至少配一個亮面、一個暗面，加上深色描邊；受光面統一在左上。
@@ -76,7 +76,29 @@
 新封面做好之後，跟現有那幾張**並排放大看一次**：
 
 ```bash
-# 把 .RAW 轉回 PNG 並排比較（96x96 RGB565 big-endian）
+# 把 .RAW 轉回 PNG 並排比較（96x96 RGB565 big-endian），放大 4 倍輸出 covers.png
+python - *.RAW <<'PY'
+import sys
+from PIL import Image
+W = H = 96; SCALE = 4
+tiles = []
+for path in sys.argv[1:]:
+    data = open(path, "rb").read()
+    assert len(data) == W * H * 2, f"{path}: {len(data)} bytes, expected {W*H*2}"
+    img = Image.new("RGB", (W, H))
+    px = []
+    for i in range(0, len(data), 2):
+        v = (data[i] << 8) | data[i + 1]
+        r, g, b = (v >> 11) & 0x1F, (v >> 5) & 0x3F, v & 0x1F
+        px.append((r << 3 | r >> 2, g << 2 | g >> 4, b << 3 | b >> 2))
+    img.putdata(px)
+    print(f"{path}: {len(set(px))} colors")
+    tiles.append(img.resize((W * SCALE, H * SCALE), Image.NEAREST))
+sheet = Image.new("RGB", (W * SCALE * len(tiles), H * SCALE), "white")
+for i, t in enumerate(tiles):
+    sheet.paste(t, (i * W * SCALE, 0))
+sheet.save("covers.png")
+PY
 ```
 
 - [ ] 縮到 96×96 還認得出是什麼嗎？
@@ -89,6 +111,9 @@
 
 ## 5. 已知偏離
 
-`RetroDict` 帶了中文字（電子辭典／文），並且用了較粗的外描邊，比其他三張
+`RetroDict` 帶了中文字（電子辭典／文），並且用了較粗的外描邊，比其他封面
 更接近貼紙風。可接受——它要表達的是「查字典」這個行為而不是一台機器——但
 新封面不建議再往這個方向走，優先畫物件。
+
+`retro-editor` 的打字機封面只有 11 色，是純平塗，沒有亮面／暗面，違反 §2.4。
+放在整排裡會顯得單薄。暫列為已知偏離，之後應依 §2.4 重畫。
