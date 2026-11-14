@@ -31,7 +31,7 @@
 | 4 | 🧩 **[makecode_arcade_console](https://github.com/pondahai/makecode_arcade_console)** | 原生遊戲與 STEM 教育 | MakeCode Arcade | 子專案 |
 | 5 | ⌨️ **[pico_keyboard](https://github.com/pondahai/pico_keyboard)** | USB 巨集機械鍵盤 | C++，矩陣掃描 | 子專案 |
 | 6 | 📡 **[pico_keyboard_ime_terminal](https://github.com/pondahai/pico_keyboard_ime_terminal)** | 中文注音輸入 / Meshtastic 離網終端機 | C++，嵌入式 IME + nanopb | 子專案 |
-| 7 | 💾 **[rp2040-retro-loader](https://github.com/pondahai/rp2040-retro-loader)** | 開機圖形選單，從 SD 卡選韌體燒錄 | C，16KB 載入器 + 跳板 | 基礎設施 |
+| 7 | 💾 **[rp2040-retro-loader](https://github.com/pondahai/rp2040-retro-loader)** | 開機圖形選單，從 SD 卡選韌體燒錄；可由電腦遠端啟動 | C，16KB 載入器 + 跳板 + USB HID 指令 | 基礎設施 |
 | 8 | 📖 **[rp2040-retro-dict](https://github.com/pondahai/rp2040-retro-dict)** | 英漢／漢英電子字典，含 1980 年代風格合成發音 | C，共振峰合成器 + 注音 IME | 子專案 |
 | 9 | 📻 **[rp2040-retro-sdr](https://github.com/pondahai/rp2040-retro-sdr)** | LF 直接取樣 SDR 收音機（0–250 kHz） | 頻譜／瀑布圖、解調、BPC/JJY 授時碼解碼 | 子專案 |
 | 10 | 📝 **[rp2040-retro-editor](https://github.com/pondahai/rp2040-retro-editor)** | 注音中文文件編輯器（開發中），兼新韌體範本 | C，pico-sdk CMake | 子專案 |
@@ -66,7 +66,7 @@
 
 ### 7. 韌體載入器 (基礎設施)
 💾 **[rp2040-retro-loader](https://github.com/pondahai/rp2040-retro-loader)**
-不是另一套「功能」，而是讓上面這些韌體**共存**的機制。它自己只佔 flash 前 16KB，開機顯示圖形選單（含封面縮圖），讓你從 SD 卡上的多個 `.uf2` 選一個寫進 `0x10004000` 並執行——換韌體不必再拔電按 BOOTSEL。已編譯好的整包成品見 **[rp2040-handheld-bundle](https://github.com/pondahai/rp2040-handheld-bundle)**，用法見下方快速開始。
+不是另一套「功能」，而是讓上面這些韌體**共存**的機制。它自己只佔 flash 前 16KB，開機顯示圖形選單（含封面縮圖），讓你從 SD 卡上的多個 `.uf2` 選一個寫進 `0x10004000` 並執行——換韌體不必再拔電按 BOOTSEL。選單期間還開了一條 USB 指令通道：電腦可以叫它啟動 SD 卡上的任一 APP，或啟動 **[rp2040-retro-sdmount](https://github.com/pondahai/rp2040-retro-sdmount)** 把 SD 卡掛成隨身碟、直接從電腦放新韌體進去，連 SD 卡都不必拔。已編譯好的整包成品見 **[rp2040-handheld-bundle](https://github.com/pondahai/rp2040-handheld-bundle)**，用法見下方快速開始。
 
 ### 8. 電子字典與語音合成
 📖 **[rp2040-retro-dict](https://github.com/pondahai/rp2040-retro-dict)**
@@ -138,7 +138,18 @@ PCB Gerber、3D 列印外殼 (STL) 與電路圖正在整理中，硬體定稿後
 
 不想每次換功能都要拔電按 BOOTSEL？搭配 **[rp2040-retro-loader](https://github.com/pondahai/rp2040-retro-loader)** 載入器，開機會出現圖形選單，從 SD 卡上的多個 `.uf2` 直接選一個燒錄並執行。
 
-整包已編譯好的成品（載入器、跳板，Doom / InfoNES / PicoApple2 / 電子字典 / SDR 收音機五個專題的韌體，以及選單封面）收在 **[rp2040-handheld-bundle](https://github.com/pondahai/rp2040-handheld-bundle)**，韌體掛在其 [Releases](https://github.com/pondahai/rp2040-handheld-bundle/releases) 並附 sha256 校驗碼，下載即可用。
+掌機停在選單、USB 接上電腦後，也可以全部從電腦操作（工具是 [rp2040-retro-sdmount](https://github.com/pondahai/rp2040-retro-sdmount) 的 `host/retro_sync.py`）：
+
+```bash
+pip install pyserial hidapi
+python retro_sync.py push RetroFoo.uf2          # 不拔 SD 卡，把新 APP（連同同名 .RAW 封面）放進去
+python retro_sync.py run INFONES_STANDALONE     # 遠端啟動 SD 卡上的某個 APP（檔名可省略 .UF2）
+python retro_sync.py push RetroFoo.uf2 --run    # 放完直接啟動
+```
+
+`push` 需要 SD 卡上有 `SDMOUNT.UF2`；`run` 需要 `v2026.11.14b` 起的 `loader.uf2`。正在跑其他 APP 時，請先按 RESET 回選單。
+
+整包已編譯好的成品（載入器、跳板，Doom / InfoNES / PicoApple2 / 電子字典 / SDR 收音機五個專題的韌體、SD 掛載工具 SDMOUNT，以及選單封面）收在 **[rp2040-handheld-bundle](https://github.com/pondahai/rp2040-handheld-bundle)**，韌體掛在其 [Releases](https://github.com/pondahai/rp2040-handheld-bundle/releases) 並附 sha256 校驗碼，下載即可用。
 
 ---
 
