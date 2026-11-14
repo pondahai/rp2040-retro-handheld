@@ -129,8 +129,8 @@ Shift 排列是照**現代 PC 鍵盤**排的，不是 Apple II+ 的排法。鍵�
 | rp2040-retro-dict | ✅ | 1（現行） | ✅ |
 | rp2040-retro-sdr | ✅ | 1（現行，另含 `ADC_ON_GP27=1`） | ✅ |
 | rp2040-retro-editor | ✅ | ON（現行） | ✅ |
-| PicoApple2 | ✅ | **0（舊版）**，編譯時要打開 | ✅ |
-| PicoApple2-KeyboardTester | ✅ | **0（舊版）**，編譯時要打開 | ✅ |
+| PicoApple2 | ✅ | 1（現行） | ✅ |
+| PicoApple2-KeyboardTester | ✅ | 1（現行） | ✅ |
 | pico_keyboard、pico_keyboard_ime_terminal | ❌ 寫死 CLOCK 26 / DATA_IN 27 | — | — |
 
 ---
