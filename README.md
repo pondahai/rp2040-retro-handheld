@@ -21,7 +21,7 @@
 
 ## 📦 軟體生態系 (The Software Stack)
 
-本生態系由以下幾個**獨立且高度優化**的開源儲存庫組成。它們共用同一套硬體骨架（見下方硬體章節），您只需依需求燒錄不同的 `.uf2` 韌體即可切換功能——或裝上第 7 項的載入器，開機從選單直接挑。
+本生態系由以下幾個**獨立且高度優化**的開源儲存庫組成。它們共用同一套硬體骨架（見下方硬體章節），您只需依需求燒錄不同的 `.uf2` 韌體即可切換功能——或裝上第 7 項的載入器，開機從選單直接挑。想自己寫新韌體或遊戲，從第 12 項的 SDK 開始。
 
 | # | 韌體 | 角色 | 語言 / 技術 | 狀態 |
 | :-: | :--- | :--- | :--- | :--- |
@@ -34,8 +34,10 @@
 | 7 | 💾 **[rp2040-retro-loader](https://github.com/pondahai/rp2040-retro-loader)** | 開機圖形選單，從 SD 卡選韌體燒錄；可由電腦遠端啟動 | C，16KB 載入器 + 跳板 + USB HID 指令 | 基礎設施 |
 | 8 | 📖 **[rp2040-retro-dict](https://github.com/pondahai/rp2040-retro-dict)** | 英漢／漢英電子字典，含 1980 年代風格合成發音 | C，共振峰合成器 + 注音 IME | 子專案 |
 | 9 | 📻 **[rp2040-retro-sdr](https://github.com/pondahai/rp2040-retro-sdr)** | LF 直接取樣 SDR 收音機（0–250 kHz） | 頻譜／瀑布圖、解調、BPC/JJY 授時碼解碼 | 子專案 |
-| 10 | 📝 **[rp2040-retro-editor](https://github.com/pondahai/rp2040-retro-editor)** | 注音中文文件編輯器（開發中），兼新韌體範本 | C，pico-sdk CMake | 子專案 |
+| 10 | 📝 **[rp2040-retro-editor](https://github.com/pondahai/rp2040-retro-editor)** | 注音中文文件編輯器（開發中） | C，pico-sdk CMake | 子專案 |
 | 11 | 🔍 **[PicoApple2-KeyboardTester](https://github.com/pondahai/PicoApple2-KeyboardTester)** | 鍵盤矩陣檢查器，量出 8×8 座標與實體鍵的對應 | Arduino | 工具 |
+| 12 | 🧰 **[rp2040-retro-sdk](https://github.com/pondahai/rp2040-retro-sdk)** | 共用驅動、2D 繪圖與新 APP 範本，`new_app.py` 一行開專案 | C，pico-sdk CMake，分條渲染 | 基礎設施 |
+| 13 | 🔦 **[lightpath](https://github.com/pondahai/rp2040-retro-sdk/tree/main/examples/lightpath)**（光路反射） | 第一款原生益智遊戲：轉鏡子把雷射導進接收器 | C，以 rp2040-retro-sdk 撰寫 | 子專案（SDK 範例） |
 
 ### 1. FPS 經典移植
 🔫 **[rp2040-doom-ili9341](https://github.com/pondahai/rp2040-doom-ili9341)**
@@ -78,11 +80,19 @@
 
 ### 10. 文件編輯器
 📝 **[rp2040-retro-editor](https://github.com/pondahai/rp2040-retro-editor)**
-掌機上的注音中文文件編輯器，文件存在 SD 卡。🚧 開發中。它同時是載入器的 **app 範本**——用 pico-sdk CMake 一次產出選單版與 standalone 版，要寫新韌體可以從這份開始。
+掌機上的注音中文文件編輯器，文件存在 SD 卡。🚧 開發中。它原本兼作載入器的 app 範本，現在新韌體建議改從第 12 項 **rp2040-retro-sdk** 的範本開始。
 
 ### 11. 鍵盤檢查器 (工具)
 🔍 **[PicoApple2-KeyboardTester](https://github.com/pondahai/PicoApple2-KeyboardTester)**
 只做鍵盤掃描與 LCD 顯示，用來實測 8×8 矩陣座標與實體鍵的對應。[docs/HARDWARE.md](docs/HARDWARE.md) 引用的鍵盤真值表就是用它量出來的。也有選單版。
+
+### 12. 韌體 SDK (基礎設施)
+🧰 **[rp2040-retro-sdk](https://github.com/pondahai/rp2040-retro-sdk)**
+寫新韌體的起點。把顯示（16-bit SPI + DMA 雙 buffer 推條）、D-pad、PWM 音效、SD 卡讀寫抽成共用模組，並提供**分條渲染**的 2D 繪圖（tilemap、sprite、8×8 文字）——一次只畫 320×16 一條，不需要 150 KB 的 framebuffer，只重送有變動的條。`python tools/new_app.py mygame` 從範本開新專案；`retro_app()` 一次產出選單版與 standalone 版 `.uf2`，`ninja mygame_run` 會經 SDMOUNT 把成品推進 SD 卡並由載入器直接啟動。遊戲邏輯與畫面是純 C，可以在電腦上預覽成 PNG、跑測試。教學見 [GETTING-STARTED.md](https://github.com/pondahai/rp2040-retro-sdk/blob/main/docs/GETTING-STARTED.md)。
+
+### 13. 原生益智遊戲
+🔦 **[lightpath（光路反射）](https://github.com/pondahai/rp2040-retro-sdk/tree/main/examples/lightpath)**
+第一款專為這台掌機撰寫的原生遊戲，也是 SDK 的完整範例。用 D-pad 移動游標、A 轉鏡子、B 拿起／放下鏡子，把雷射導進所有接收器即過關。內建 5 關，SD 卡上放 `lightpath.lvl` 可換成自訂關卡（純文字格式），進度與每關最少步數存在 `lightpath.sav`。每一關的可解性都由電腦端測試保證。原始碼放在 SDK 的 `examples/` 底下。
 
 ---
 
