@@ -38,6 +38,7 @@
 | 11 | 🔍 **[PicoApple2-KeyboardTester](https://github.com/pondahai/PicoApple2-KeyboardTester)** | 鍵盤矩陣檢查器，量出 8×8 座標與實體鍵的對應 | Arduino | 工具 |
 | 12 | 🧰 **[rp2040-retro-sdk](https://github.com/pondahai/rp2040-retro-sdk)** | 共用驅動、2D 繪圖與新 APP 範本，`new_app.py` 一行開專案 | C，pico-sdk CMake，分條渲染 | 基礎設施 |
 | 13 | 🔦 **[lightpath](https://github.com/pondahai/rp2040-retro-sdk/tree/main/examples/lightpath)**（光路反射） | 第一款原生益智遊戲：轉鏡子把雷射導進接收器 | C，以 rp2040-retro-sdk 撰寫 | 子專案（SDK 範例） |
+| 14 | ✈️ **[rp2040-skyace](https://github.com/pondahai/rp2040-skyace)**（SKY ACE） | 直向捲軸空戰射擊，玩法致敬 1943：能量條、翻滾閃避、魔王戰 | C，以 rp2040-retro-sdk 撰寫 | 子專案 |
 
 ### 1. FPS 經典移植
 🔫 **[rp2040-doom-ili9341](https://github.com/pondahai/rp2040-doom-ili9341)**
@@ -93,6 +94,11 @@
 ### 13. 原生益智遊戲
 🔦 **[lightpath（光路反射）](https://github.com/pondahai/rp2040-retro-sdk/tree/main/examples/lightpath)**
 第一款專為這台掌機撰寫的原生遊戲，也是 SDK 的完整範例。用 D-pad 移動游標、A 轉鏡子、B 拿起／放下鏡子，把雷射導進所有接收器即過關。內建 5 關，SD 卡上放 `lightpath.lvl` 可換成自訂關卡（純文字格式），進度與每關最少步數存在 `lightpath.sav`。每一關的可解性都由電腦端測試保證。原始碼放在 SDK 的 `examples/` 底下。
+
+### 14. 原生射擊遊戲
+✈️ **[rp2040-skyace（SKY ACE）](https://github.com/pondahai/rp2040-skyace)**
+直向捲軸空戰射擊，玩法致敬 1943：能量條會隨時間消耗、被打中扣能量，吃 POW 補給；A 連射、B 翻滾無敵閃避。一般敵機成波出現、紅色編隊全滅掉道具、轟炸機會齊射，約 50 秒後魔王重轟炸機出場。海面與島嶼隨機生成捲動。Release 提供可直接燒錄的 `skyace_standalone.uf2`，以及給載入器用的 `skyace.uf2` + 封面。
+<img width="648" height="488" alt="SKY ACE" src="https://raw.githubusercontent.com/pondahai/rp2040-skyace/master/docs/screenshot.png" />
 
 ---
 
