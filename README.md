@@ -34,6 +34,8 @@
 | 7 | 💾 **[rp2040-retro-loader](https://github.com/pondahai/rp2040-retro-loader)** | 開機圖形選單，從 SD 卡選韌體燒錄 | C，16KB 載入器 + 跳板 | 基礎設施 |
 | 8 | 📖 **[rp2040-retro-dict](https://github.com/pondahai/rp2040-retro-dict)** | 英漢／漢英電子字典，含 1980 年代風格合成發音 | C，共振峰合成器 + 注音 IME | 子專案 |
 | 9 | 📻 **[rp2040-retro-sdr](https://github.com/pondahai/rp2040-retro-sdr)** | LF 直接取樣 SDR 收音機（0–250 kHz） | 頻譜／瀑布圖、解調、BPC/JJY 授時碼解碼 | 子專案 |
+| 10 | 📝 **[rp2040-retro-editor](https://github.com/pondahai/rp2040-retro-editor)** | 注音中文文件編輯器（開發中），兼新韌體範本 | C，pico-sdk CMake | 子專案 |
+| 11 | 🔍 **[PicoApple2-KeyboardTester](https://github.com/pondahai/PicoApple2-KeyboardTester)** | 鍵盤矩陣檢查器，量出 8×8 座標與實體鍵的對應 | Arduino | 工具 |
 
 ### 1. FPS 經典移植
 🔫 **[rp2040-doom-ili9341](https://github.com/pondahai/rp2040-doom-ili9341)**
@@ -73,6 +75,14 @@
 ### 9. SDR 收音機
 📻 **[rp2040-retro-sdr](https://github.com/pondahai/rp2040-retro-sdr)**
 用 RP2040 的 ADC 直接取樣，把掌機變成 0–250 kHz 的長波（LF）軟體無線電：即時頻譜、瀑布圖、解調音訊，並能解出 BPC（中國）與 JJY（日本）的電波授時碼。和字典一樣沒有自己的 Releases，選單版與 standalone 版的 `.uf2` 收在 **[rp2040-handheld-bundle](https://github.com/pondahai/rp2040-handheld-bundle/releases)**（2026-10-10 收入）。
+
+### 10. 文件編輯器
+📝 **[rp2040-retro-editor](https://github.com/pondahai/rp2040-retro-editor)**
+掌機上的注音中文文件編輯器，文件存在 SD 卡。🚧 開發中。它同時是載入器的 **app 範本**——用 pico-sdk CMake 一次產出選單版與 standalone 版，要寫新韌體可以從這份開始。
+
+### 11. 鍵盤檢查器 (工具)
+🔍 **[PicoApple2-KeyboardTester](https://github.com/pondahai/PicoApple2-KeyboardTester)**
+只做鍵盤掃描與 LCD 顯示，用來實測 8×8 矩陣座標與實體鍵的對應。[docs/HARDWARE.md](docs/HARDWARE.md) 引用的鍵盤真值表就是用它量出來的。也有選單版。
 
 ---
 

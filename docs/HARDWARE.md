@@ -122,10 +122,16 @@ Shift 排列是照**現代 PC 鍵盤**排的，不是 Apple II+ 的排法。鍵�
 | `KBD_SHARED_DATA=1` | 165 QH 改讀 GPIO 15 |
 | `KBD_CLK_ON_LCD_DC=1` | CLOCK 改用 GPIO 20；GPIO 26/27 設高阻抗 |
 
-> ⚠️ 已實作開關的 repo（rp2040-retro-dict、rp2040-retro-sdr、rp2040-retro-editor）
-> **預設值仍是 0（舊版）**，新板子要編譯時手動打開。其他用鍵盤矩陣的韌體
-> （PicoApple2、PicoApple2-KeyboardTester、pico_keyboard、pico_keyboard_ime_terminal）
-> 尚未支援現行接線。
+各韌體支援狀況（2026-11-14）：
+
+| 韌體 | 支援現行接線 | 開關預設 | 實機驗證 |
+| :--- | :-: | :-: | :-: |
+| rp2040-retro-dict | ✅ | 1（現行） | ✅ |
+| rp2040-retro-sdr | ✅ | 1（現行，另含 `ADC_ON_GP27=1`） | ✅ |
+| rp2040-retro-editor | ✅ | ON（現行） | ✅ |
+| PicoApple2 | ✅ | **0（舊版）**，編譯時要打開 | ✅ |
+| PicoApple2-KeyboardTester | ✅ | **0（舊版）**，編譯時要打開 | ✅ |
+| pico_keyboard、pico_keyboard_ime_terminal | ❌ 寫死 CLOCK 26 / DATA_IN 27 | — | — |
 
 ---
 
@@ -151,8 +157,10 @@ Shift 排列是照**現代 PC 鍵盤**排的，不是 Apple II+ 的排法。鍵�
 | 中文點陣字型（選單用） | `rp2040-ili9341-infones`（Cubic 11） |
 | FatFs + SD 驅動 | `rp2040-ili9341-infones/software/infones/drivers/` |
 
-> ⚠️ **注音碼表的授權未定**：碼表來自 `pico_keyboard_ime_terminal`，
-> 該 repo 目前沒有 LICENSE 檔、碼表出處也未寫明。**散布前要先補上。**
+> 📜 **注音碼表的授權**：碼表取自 [McBopomofo（小麥注音輸入法）](https://github.com/openvanilla/McBopomofo)
+> 的 `BPMFBase.txt` 與 `BPMFPunctuations.txt`，**MIT License**。未使用帶 libtabe
+> BSD 血統的多字詞庫 `BPMFMappings.txt`。詳見 `pico_keyboard_ime_terminal/THIRD_PARTY_NOTICES.md`；
+> 散布時要附上該聲明。
 
 ---
 
