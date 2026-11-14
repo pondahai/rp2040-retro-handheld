@@ -23,17 +23,17 @@ MCU：Raspberry Pi Pico (RP2040)，雙核 Cortex-M0+，可超頻至 ~250MHz
 | | MOSI | 19 | |
 | | MISO | 16 | 多數韌體不讀顯示器，可不接 |
 | | CS | 17 | |
-| | DC | 20 | 命令/資料選擇 |
+| | DC | 20 | 命令/資料選擇；**兼鍵盤矩陣 CLOCK**（見 §2.2） |
 | | RST | 21 | |
 | | BL | 22 | 背光，可接 PWM 調亮度 |
 | **SD 卡** (spi1) | SCK | 10 | 與顯示器分開的 bus —— 兩者可同時動作 |
 | | MOSI | 11 | |
 | | MISO | 12 | |
 | | CS | 13 | |
-| **鍵盤矩陣** | DATA_OUT | 15 | → 74HC595（驅動掃描列，同時驅動 LED） |
-| | LATCH | 14 | |
-| | CLOCK | 26 | 595 與 165 共用 |
-| | DATA_IN | 27 | ← 74HC165（讀回行狀態） |
+| **鍵盤矩陣** | DATA | 15 | → 74HC595 SER；← 74HC165 QH（串 1kΩ，共用一腳，見 §2.2） |
+| | LATCH | 14 | 595 latch，兼 165 load |
+| | CLOCK | 20 | 595 與 165 共用，**與 LCD DC 共用** |
+| **空出** | — | 26, 27 | 舊版鍵盤用的腳，現已空出（27 可作 ADC） |
 | **遊戲按鍵** | UP / DOWN | 9 / 5 | **直接接 GPIO**，active-low、內部上拉 |
 | | LEFT / RIGHT | 8 / 6 | |
 | | A / B | 2 / 3 | |
@@ -56,7 +56,7 @@ MCU：Raspberry Pi Pico (RP2040)，雙核 Cortex-M0+，可超頻至 ~250MHz
 | | 8 鍵遊戲按鍵 | 8×8 鍵盤矩陣 |
 | :--- | :--- | :--- |
 | 接法 | 直接接 GPIO，active-low + 內部上拉 | 74HC595 掃描列 / 74HC165 讀回 |
-| 腳位 | 2, 3, 4, 5, 6, 8, 9, 28 | 14, 15, 26, 27 |
+| 腳位 | 2, 3, 4, 5, 6, 8, 9, 28 | 14, 15, 20（舊版：14, 15, 26, 27） |
 | 讀法 | `gpio_get()` | 移位暫存器逐列掃描 |
 | 誰在用 | `rp2040-retro-loader`、`rp2040-ili9341-infones`（推測 doom 亦同） | `PicoApple2`、`PicoApple2-KeyboardTester`、`rp2040-retro-dict` |
 | 適合 | 遊戲、選單 | 文字輸入、終端機、中文注音 |
@@ -95,6 +95,37 @@ Shift 排列是照**現代 PC 鍵盤**排的，不是 Apple II+ 的排法。鍵�
 去彈跳（30ms）、修飾鍵、連發（400ms 起跳 / 60ms 間隔）這些真正容易寫錯的
 邏輯因此能在 PC 上測。新韌體直接搬這個檔案，只要自己寫「餵 74HC165 的結果
 進去」那十幾行。
+
+### 2.2 鍵盤矩陣改版接線（現行標準）
+
+2026-10 起鍵盤矩陣改用 3 支腳，**之後所有韌體與硬體都以此為準**。
+
+| | 舊版 | **現行** |
+| :--- | :--- | :--- |
+| 595 SER | GPIO 15 | GPIO 15 |
+| 165 QH | GPIO 27 | **GPIO 15**，串 1kΩ |
+| CLOCK（595/165 共用） | GPIO 26 | **GPIO 20**（= LCD DC） |
+| LATCH | GPIO 14 | GPIO 14 |
+| 空出 | — | GPIO 26、27 |
+
+**為什麼能共用：**
+- **DATA**：寫 595 時 GPIO 15 當輸出，隔著 1kΩ 蓋過 QH；讀 165 時切成輸入。
+- **CLOCK = LCD DC**：ILI9341 只在 CS 為低時才於 SCK 邊緣取樣 DC。掃描前
+  等 SPI 閒置、拉高 CS，DC 怎麼跳都不影響 LCD；掃完還原 DC。平常 LCD 翻 DC
+  只會讓 595/165 多移幾位，但 LATCH 不動 595 輸出就不變，165 每次掃描開頭也
+  會重新載入，所以無害。LATCH 閒置時停在高。
+
+**韌體端的編譯開關**（兩個都要開，後者依賴前者）：
+
+| 開關 | 作用 |
+| :--- | :--- |
+| `KBD_SHARED_DATA=1` | 165 QH 改讀 GPIO 15 |
+| `KBD_CLK_ON_LCD_DC=1` | CLOCK 改用 GPIO 20；GPIO 26/27 設高阻抗 |
+
+> ⚠️ 已實作開關的 repo（rp2040-retro-dict、rp2040-retro-sdr、rp2040-retro-editor）
+> **預設值仍是 0（舊版）**，新板子要編譯時手動打開。其他用鍵盤矩陣的韌體
+> （PicoApple2、PicoApple2-KeyboardTester、pico_keyboard、pico_keyboard_ime_terminal）
+> 尚未支援現行接線。
 
 ---
 
