@@ -39,6 +39,7 @@
 | 12 | 🧰 **[rp2040-retro-sdk](https://github.com/pondahai/rp2040-retro-sdk)** | 共用驅動、2D 繪圖與新 APP 範本，`new_app.py` 一行開專案 | C，pico-sdk CMake，分條渲染 | 基礎設施 |
 | 13 | 🔦 **[lightpath](https://github.com/pondahai/rp2040-retro-sdk/tree/main/examples/lightpath)**（光路反射） | 第一款原生益智遊戲：轉鏡子把雷射導進接收器 | C，以 rp2040-retro-sdk 撰寫 | 子專案（SDK 範例） |
 | 14 | ✈️ **[rp2040-skyace](https://github.com/pondahai/rp2040-skyace)**（SKY ACE） | 直向捲軸空戰射擊，玩法致敬 1943：能量條、翻滾閃避、空戰與船艦關輪流、魔王戰 | C，以 rp2040-retro-sdk 撰寫 | 子專案 |
+| 15 | 🐸 **[rp2040-hopper](https://github.com/pondahai/rp2040-hopper)**（HOPPER） | 橫向捲軸平台跳躍：青蛙踩甲蟲、收金幣、抓終點旗，3 關 ASCII 關卡 | C，以 rp2040-retro-sdk 撰寫 | 子專案 |
 
 ### 1. FPS 經典移植
 🔫 **[rp2040-doom-ili9341](https://github.com/pondahai/rp2040-doom-ili9341)**
@@ -99,6 +100,11 @@
 ✈️ **[rp2040-skyace（SKY ACE）](https://github.com/pondahai/rp2040-skyace)**
 直向捲軸空戰射擊，玩法致敬 1943：能量條會隨時間消耗、被打中扣能量，吃 POW 補給；A 連射、B 翻滾無敵閃避。一般敵機成波出現、紅色編隊全滅掉道具、轟炸機會齊射，約 50 秒後魔王重轟炸機出場。海面與島嶼隨機生成捲動。偶數關是船艦關：空戰打到 3/4 出現「ENEMY FLEET!」，主角下降高度穿過雲層，切成低空海面，巡邏艇、驅逐艦、運輸船上的砲塔會瞄準開火、可個別擊破；魔王輪流是戰艦與航空母艦（會放艦載機），慢慢捲過畫面只有一次機會，讓它開走就依擊破率打折獎勵。Release 提供可直接燒錄的 `skyace_standalone.uf2`，以及給載入器用的 `skyace.uf2` + 封面。
 <img width="648" height="488" alt="SKY ACE" src="https://raw.githubusercontent.com/pondahai/rp2040-skyace/master/docs/screenshot.png" />
+
+### 15. 原生平台跳躍遊戲
+🐸 **[rp2040-hopper（HOPPER）](https://github.com/pondahai/rp2040-hopper)**
+橫向捲軸平台跳躍：方向鍵移動、按住 B 跑、A 跳（按越久跳越高）。從上面踩扁甲蟲會彈起，碰到側面就失去一條命；收集金幣 100 枚加一條命，中繼點旗子變黃後失誤從那裡重來，抓終點旗越高分越多。3 關難度遞增，關卡是 `levels.c` 裡的 ASCII 字串，改字元就能改地形。Release 提供可直接燒錄的 `hopper_standalone.uf2`，以及給載入器用的 `hopper.uf2` + 封面 `HOPPER.RAW`。
+<img width="640" height="480" alt="HOPPER" src="https://raw.githubusercontent.com/pondahai/rp2040-hopper/main/docs/screenshot.png" />
 
 ---
 
