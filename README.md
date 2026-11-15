@@ -40,6 +40,7 @@
 | 13 | 🔦 **[lightpath](https://github.com/pondahai/rp2040-retro-sdk/tree/main/examples/lightpath)**（光路反射） | 第一款原生益智遊戲：轉鏡子把雷射導進接收器 | C，以 rp2040-retro-sdk 撰寫 | 子專案（SDK 範例） |
 | 14 | ✈️ **[rp2040-skyace](https://github.com/pondahai/rp2040-skyace)**（SKY ACE） | 直向捲軸空戰射擊，玩法致敬 1943：能量條、翻滾閃避、空戰與船艦關輪流、魔王戰 | C，以 rp2040-retro-sdk 撰寫 | 子專案 |
 | 15 | 🐸 **[rp2040-hopper](https://github.com/pondahai/rp2040-hopper)**（HOPPER） | 橫向捲軸平台跳躍：青蛙踩甲蟲、收金幣、抓終點旗，3 關 ASCII 關卡 | C，以 rp2040-retro-sdk 撰寫 | 子專案 |
+| 16 | 🏎️ **[rp2040-nightrun](https://github.com/pondahai/rp2040-nightrun)**（NIGHT RUN） | 偽 3D 夜間公路賽車：檢查點計時、車流、氮氣，5 關、可自訂賽道 | C，以 rp2040-retro-sdk 撰寫 | 子專案 |
 
 ### 1. FPS 經典移植
 🔫 **[rp2040-doom-ili9341](https://github.com/pondahai/rp2040-doom-ili9341)**
@@ -95,6 +96,7 @@
 ### 13. 原生益智遊戲
 🔦 **[lightpath（光路反射）](https://github.com/pondahai/rp2040-retro-sdk/tree/main/examples/lightpath)**
 第一款專為這台掌機撰寫的原生遊戲，也是 SDK 的完整範例。用 D-pad 移動游標、A 轉鏡子、B 拿起／放下鏡子，把雷射導進所有接收器即過關。內建 5 關，SD 卡上放 `lightpath.lvl` 可換成自訂關卡（純文字格式），進度與每關最少步數存在 `lightpath.sav`。每一關的可解性都由電腦端測試保證。原始碼放在 SDK 的 `examples/` 底下。
+<img width="640" height="480" alt="LIGHT PATH" src="https://raw.githubusercontent.com/pondahai/rp2040-retro-sdk/main/examples/lightpath/docs/clear.png" />
 
 ### 14. 原生射擊遊戲
 ✈️ **[rp2040-skyace（SKY ACE）](https://github.com/pondahai/rp2040-skyace)**
@@ -105,6 +107,11 @@
 🐸 **[rp2040-hopper（HOPPER）](https://github.com/pondahai/rp2040-hopper)**
 橫向捲軸平台跳躍：方向鍵移動、按住 B 跑、A 跳（按越久跳越高）。從上面踩扁甲蟲會彈起，碰到側面就失去一條命；收集金幣 100 枚加一條命，中繼點旗子變黃後失誤從那裡重來，抓終點旗越高分越多。3 關難度遞增，關卡是 `levels.c` 裡的 ASCII 字串，改字元就能改地形。Release 提供可直接燒錄的 `hopper_standalone.uf2`，以及給載入器用的 `hopper.uf2` + 封面 `HOPPER.RAW`。
 <img width="640" height="480" alt="HOPPER" src="https://raw.githubusercontent.com/pondahai/rp2040-hopper/main/docs/screenshot.png" />
+
+### 16. 原生賽車遊戲
+🏎️ **[rp2040-nightrun（NIGHT RUN）](https://github.com/pondahai/rp2040-nightrun)**
+偽 3D 夜間公路賽車：A 油門、B 煞車、左右轉向，在時限內跑到下一個檢查點就加時間。公路有彎道與上下坡，過彎時離心力把車往外推；撞到路燈或方向牌會減速失控，要閃過換車道的車流；撿紅色燃料罐補氮氣，A+B 噴出去衝到 385 km/h。5 關（郊外、沙漠、森林、海岸、雪山）越後面彎越急、加的時間越少，難度曲線用電腦端的自動駕駛模擬調過。螢幕 SPI 跑 62.5 MHz、每幀整個畫面重畫，穩定 30 fps；最高分存在 SD 卡，放 `nightrun.trk` 可換成自訂賽道（純文字格式）。公路投影寫進 SDK 的 `lib/road`，之後的賽車類遊戲可以共用。Release 提供可直接燒錄的 `nightrun_standalone.uf2`，以及給載入器用的 `nightrun.uf2` + 封面 `NIGHTRUN.RAW`。
+<img width="640" height="480" alt="NIGHT RUN" src="https://raw.githubusercontent.com/pondahai/rp2040-nightrun/main/docs/screenshot.png" />
 
 ---
 
