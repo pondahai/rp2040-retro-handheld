@@ -37,7 +37,7 @@
 | 10 | 📝 **[rp2040-retro-editor](https://github.com/pondahai/rp2040-retro-editor)** | 注音中文文件編輯器（開發中） | C，pico-sdk CMake | 子專案 |
 | 11 | 🔍 **[PicoApple2-KeyboardTester](https://github.com/pondahai/PicoApple2-KeyboardTester)** | 鍵盤矩陣檢查器，量出 8×8 座標與實體鍵的對應 | Arduino | 工具 |
 | 12 | 🧰 **[rp2040-retro-sdk](https://github.com/pondahai/rp2040-retro-sdk)** | 共用驅動、2D 繪圖與新 APP 範本，`new_app.py` 一行開專案 | C，pico-sdk CMake，分條渲染 | 基礎設施 |
-| 13 | 🔦 **[lightpath](https://github.com/pondahai/rp2040-retro-sdk/tree/main/examples/lightpath)**（光路反射） | 第一款原生益智遊戲：轉鏡子把雷射導進接收器 | C，以 rp2040-retro-sdk 撰寫 | 子專案（SDK 範例） |
+| 13 | 🔦 **[rp2040-lightpath](https://github.com/pondahai/rp2040-lightpath)**（LIGHT PATH） | 第一款原生益智遊戲：轉鏡子把雷射導進接收器 | C，以 rp2040-retro-sdk 撰寫 | 子專案 |
 | 14 | ✈️ **[rp2040-skyace](https://github.com/pondahai/rp2040-skyace)**（SKY ACE） | 直向捲軸空戰射擊，玩法致敬 1943：能量條、翻滾閃避、空戰與船艦關輪流、魔王戰 | C，以 rp2040-retro-sdk 撰寫 | 子專案 |
 | 15 | 🐸 **[rp2040-hopper](https://github.com/pondahai/rp2040-hopper)**（HOPPER） | 橫向捲軸平台跳躍：青蛙踩甲蟲、收金幣、抓終點旗，3 關 ASCII 關卡 | C，以 rp2040-retro-sdk 撰寫 | 子專案 |
 | 16 | 🏎️ **[rp2040-nightrun](https://github.com/pondahai/rp2040-nightrun)**（NIGHT RUN） | 偽 3D 夜間公路賽車：檢查點計時、車流、氮氣，5 關、可自訂賽道 | C，以 rp2040-retro-sdk 撰寫 | 子專案 |
@@ -94,9 +94,9 @@
 寫新韌體的起點。把顯示（16-bit SPI + DMA 雙 buffer 推條）、D-pad、PWM 音效、SD 卡讀寫抽成共用模組，並提供**分條渲染**的 2D 繪圖（tilemap、sprite、8×8 文字）——一次只畫 320×16 一條，不需要 150 KB 的 framebuffer，只重送有變動的條。`python tools/new_app.py mygame` 從範本開新專案；`retro_app()` 一次產出選單版與 standalone 版 `.uf2`，`ninja mygame_run` 會經 SDMOUNT 把成品推進 SD 卡並由載入器直接啟動。遊戲邏輯與畫面是純 C，可以在電腦上預覽成 PNG、跑測試。教學見 [GETTING-STARTED.md](https://github.com/pondahai/rp2040-retro-sdk/blob/main/docs/GETTING-STARTED.md)。
 
 ### 13. 原生益智遊戲
-🔦 **[lightpath（光路反射）](https://github.com/pondahai/rp2040-retro-sdk/tree/main/examples/lightpath)**
-第一款專為這台掌機撰寫的原生遊戲，也是 SDK 的完整範例。用 D-pad 移動游標、A 轉鏡子、B 拿起／放下鏡子，把雷射導進所有接收器即過關。內建 5 關，SD 卡上放 `lightpath.lvl` 可換成自訂關卡（純文字格式），進度與每關最少步數存在 `lightpath.sav`。每一關的可解性都由電腦端測試保證。原始碼放在 SDK 的 `examples/` 底下。
-<img width="640" height="480" alt="LIGHT PATH" src="https://raw.githubusercontent.com/pondahai/rp2040-retro-sdk/main/examples/lightpath/docs/clear.png" />
+🔦 **[rp2040-lightpath（LIGHT PATH）](https://github.com/pondahai/rp2040-lightpath)**
+第一款專為這台掌機撰寫的原生遊戲，也是 SDK 的完整範例。用 D-pad 移動游標、A 轉鏡子、B 拿起／放下鏡子，把雷射導進所有接收器即過關。內建 5 關，SD 卡上放 `lightpath.lvl` 可換成自訂關卡（純文字格式），進度與每關最少步數存在 `lightpath.sav`。每一關的可解性都由電腦端測試保證。已獨立成 repo，SDK 以 submodule 引入；SDK 的 `examples/lightpath` 仍保留一份作為範例。
+<img width="640" height="480" alt="LIGHT PATH" src="https://raw.githubusercontent.com/pondahai/rp2040-lightpath/main/docs/clear.png" />
 
 ### 14. 原生射擊遊戲
 ✈️ **[rp2040-skyace（SKY ACE）](https://github.com/pondahai/rp2040-skyace)**
