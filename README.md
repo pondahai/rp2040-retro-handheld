@@ -95,7 +95,7 @@
 
 ### 13. 原生益智遊戲
 🔦 **[rp2040-lightpath（LIGHT PATH）](https://github.com/pondahai/rp2040-lightpath)**
-第一款專為這台掌機撰寫的原生遊戲，也是 SDK 的完整範例。用 D-pad 移動游標、A 轉鏡子、B 拿起／放下鏡子，把雷射導進所有接收器即過關。內建 5 關，SD 卡上放 `lightpath.lvl` 可換成自訂關卡（純文字格式），進度與每關最少步數存在 `lightpath.sav`。每一關的可解性都由電腦端測試保證。已獨立成 repo，SDK 以 submodule 引入；SDK 的 `examples/lightpath` 仍保留一份作為範例。
+第一款專為這台掌機撰寫的原生遊戲，也是 SDK 的完整範例。用 D-pad 移動游標、A 轉鏡子、B 拿起／放下鏡子，把雷射導進所有接收器即過關。內建 5 關，SD 卡上放 `lightpath.lvl` 可換成自訂關卡（純文字格式），進度與每關最少步數存在 `lightpath.sav`。每一關的可解性都由電腦端測試保證。已獨立成 repo，SDK 以 submodule 引入。
 <img width="640" height="480" alt="LIGHT PATH" src="https://raw.githubusercontent.com/pondahai/rp2040-lightpath/main/docs/clear.png" />
 
 ### 14. 原生射擊遊戲
