@@ -169,6 +169,8 @@ PCB Gerber、3D 列印外殼 (STL) 與電路圖正在整理中，硬體定稿後
 
 #### 首次安裝（免拔卡、免讀卡機，只需進 1 次 BOOTSEL）
 
+![first_install.uf2 方塊圖與單次 BOOTSEL 安裝流程](https://raw.githubusercontent.com/pondahai/rp2040-handheld-bundle/main/docs/first_install_flow.svg)
+
 新機或全新 FAT16/FAT32 SD 卡第一次設定時，到 **[rp2040-handheld-bundle Releases](https://github.com/pondahai/rp2040-handheld-bundle/releases)** 下載 `first_install.uf2`（`loader.uf2` + `SDMOUNT.UF2` 合併版），全程 USB 一次完成：
 
 1. **插好 SD 卡，進 BOOTSEL**：按住掌機 `BOOTSEL` 插上 USB，電腦出現 `RPI-RP2`。
