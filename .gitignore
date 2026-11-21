@@ -1,0 +1,4 @@
+# Local generated environment / OS files
+build_env.bat
+.DS_Store
+Thumbs.db
