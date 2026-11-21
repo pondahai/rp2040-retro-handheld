@@ -167,16 +167,28 @@ PCB Gerber、3D 列印外殼 (STL) 與電路圖正在整理中，硬體定稿後
 
 不想每次換功能都要拔電按 BOOTSEL？搭配 **[rp2040-retro-loader](https://github.com/pondahai/rp2040-retro-loader)** 載入器，開機會出現圖形選單，從 SD 卡上的多個 `.uf2` 直接選一個燒錄並執行。
 
-掌機停在選單、USB 接上電腦後，也可以全部從電腦操作（工具是 [rp2040-retro-sdmount](https://github.com/pondahai/rp2040-retro-sdmount) 的 `host/retro_sync.py`）：
+#### 首次安裝（免拔卡、免讀卡機，只需進 1 次 BOOTSEL）
+
+新機或全新 FAT16/FAT32 SD 卡第一次設定時，到 **[rp2040-handheld-bundle Releases](https://github.com/pondahai/rp2040-handheld-bundle/releases)** 下載 `first_install.uf2`（`loader.uf2` + `SDMOUNT.UF2` 合併版），全程 USB 一次完成：
+
+1. **插好 SD 卡，進 BOOTSEL**：按住掌機 `BOOTSEL` 插上 USB，電腦出現 `RPI-RP2`。
+2. **拖入 `first_install.uf2`**：掌機重開後會因軟重置自動啟動 SDMOUNT，直接把 SD 卡掛成電腦上的隨身碟。
+3. **寫入檔案並進入選單**：把 `SDMOUNT.UF2`、`SDMOUNT.RAW` 以及想要的專題 `.uf2`（選單版）與同名 `.RAW` 封面複製到 SD 卡**根目錄**並安全退出，按掌機 **START**（或執行 `python retro_sync.py push SDMOUNT.UF2 ...` 一次完成複製、退出與切換）即直接進入圖形選單。
+
+> 💡 若手邊有讀卡機，直接將 `SDMOUNT.UF2` 與各 APP／封面複製到 SD 卡根目錄後，進一次 BOOTSEL 燒錄 `loader.uf2` 即可。
+
+#### 日常同步與遠端啟動
+
+完成首次安裝後，掌機停在選單、USB 接上電腦就能全部從電腦操作（工具是 [rp2040-retro-sdmount](https://github.com/pondahai/rp2040-retro-sdmount) 的 `host/retro_sync.py`）：
 
 ```bash
 pip install pyserial hidapi
 python retro_sync.py push RetroFoo.uf2          # 不拔 SD 卡，把新 APP（連同同名 .RAW 封面）放進去
-python retro_sync.py run INFONES_STANDALONE     # 遠端啟動 SD 卡上的某個 APP（檔名可省略 .UF2）
+python retro_sync.py run INFONES                # 遠端啟動 SD 卡上的某個 APP（檔名可省略 .UF2）
 python retro_sync.py push RetroFoo.uf2 --run    # 放完直接啟動
 ```
 
-`push` 需要 SD 卡上有 `SDMOUNT.UF2`；`run` 需要 `v2026.11.14b` 起的 `loader.uf2`。正在跑其他 APP 時，請先按 RESET 回選單。
+`push` 需要 SD 卡上有 `SDMOUNT.UF2`；`run` 需要 `v2026.11.14b` 起的 `loader.uf2`。正在跑其他 APP 時，請先按 RESET 回選單；日後若需重燒載入器，開機時按住 `SELECT` 即可直接進 BOOTSEL。
 
 整包已編譯好的成品（載入器、跳板，Doom / InfoNES / PicoApple2 / 電子字典 / SDR 收音機五個專題的韌體、SD 掛載工具 SDMOUNT，以及選單封面）收在 **[rp2040-handheld-bundle](https://github.com/pondahai/rp2040-handheld-bundle)**，韌體掛在其 [Releases](https://github.com/pondahai/rp2040-handheld-bundle/releases) 並附 sha256 校驗碼，下載即可用。
 
